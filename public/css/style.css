@@ -1,0 +1,319 @@
+/* ── Taqreeb — Global ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --taq-dark: #0B0F0E;
+  --taq-green: #1D9E75;
+  --taq-green-light: #3DBA8A;
+  --taq-off: #F2F7F5;
+  --taq-muted: #6B7B74;
+  --taq-border: rgba(29,158,117,0.18);
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--taq-dark);
+  color: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Nav ── */
+.taq-nav {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11,15,14,0.92);
+  backdrop-filter: blur(12px);
+}
+
+.taq-logo {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+
+.taq-dot { color: var(--taq-green); }
+
+.taq-nav-tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--taq-green-light);
+  border: 1px solid var(--taq-border);
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* ── Hero ── */
+.taq-hero {
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.taq-geo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.taq-geo svg {
+  width: min(680px, 100vw);
+  height: auto;
+}
+
+.taq-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--taq-green-light);
+  margin-bottom: 1.25rem;
+}
+
+.taq-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.taq-subhead {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  line-height: 1.7;
+  color: #A8BDB6;
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+}
+
+/* ── Form ── */
+.taq-form-wrap { margin-bottom: 1.75rem; }
+
+.taq-form { width: 100%; }
+
+.taq-input-row {
+  display: flex;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.taq-input {
+  flex: 1 1 200px;
+  min-width: 0;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 0.95rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.taq-input::placeholder { color: rgba(255,255,255,0.3); }
+
+.taq-input:focus {
+  border-color: var(--taq-green);
+  background: rgba(29,158,117,0.07);
+}
+
+.taq-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--taq-green);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.taq-btn:hover { background: var(--taq-green-light); }
+.taq-btn:active { transform: scale(0.98); }
+
+.taq-form-note {
+  font-size: 0.78rem;
+  color: var(--taq-muted);
+  margin-top: 0.9rem;
+}
+
+/* ── Alerts ── */
+.taq-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.taq-alert-success {
+  background: rgba(29,158,117,0.15);
+  color: var(--taq-green-light);
+  border: 1px solid rgba(29,158,117,0.3);
+}
+
+.taq-alert-error {
+  background: rgba(220,60,60,0.12);
+  color: #F87171;
+  border: 1px solid rgba(220,60,60,0.25);
+}
+
+/* ── Social proof ── */
+.taq-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.taq-proof-avatars {
+  display: flex;
+}
+
+.taq-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--taq-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  margin-left: -8px;
+}
+
+.taq-avatar:first-child { margin-left: 0; }
+
+.taq-proof-text {
+  font-size: 0.82rem;
+  color: var(--taq-muted);
+  margin: 0;
+}
+
+/* ── Problem section ── */
+.taq-problem {
+  padding: 5rem 0;
+  background: var(--taq-off);
+}
+
+.taq-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--taq-green);
+  margin-bottom: 1rem;
+}
+
+.taq-section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  font-weight: 800;
+  color: var(--taq-dark);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  margin-bottom: 1rem;
+}
+
+.taq-section-body {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #4A5E57;
+}
+
+/* ── Cards ── */
+.taq-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  height: 100%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.taq-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+}
+
+.taq-card-icon {
+  font-size: 1.5rem;
+  color: var(--taq-green);
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.taq-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--taq-dark);
+  margin-bottom: 0.6rem;
+}
+
+.taq-card-body {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #5A7068;
+  margin: 0;
+}
+
+/* ── Footer ── */
+.taq-footer {
+  background: var(--taq-dark);
+  padding: 2.5rem 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.taq-footer-sub {
+  font-size: 0.82rem;
+  color: var(--taq-muted);
+  margin: 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 576px) {
+  .taq-input-row { flex-direction: column; }
+  .taq-btn { width: 100%; justify-content: center; }
+  .taq-input { flex: 1 1 100%; }
+  .taq-hero { padding: 3.5rem 0 3rem; min-height: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .taq-card { transition: none; }
+  .taq-btn { transition: background 0.2s; }
+}

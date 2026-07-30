@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Taqreeb</title>
+  <meta name="description" content="Taqreeb helps Huffaz and Quran students retain what they've memorised through personalised revision schedules, daily planners, and smart murāja'ah tools. Join the waitlist." />
+  <meta name="keywords" content="Quran memorisation, hifdh app, muraja, quran revision, hafiz tool, quran retention" />
+  <meta name="author" content="Taqreeb" />
+  <link rel="canonical" href="https://taqreeb.vercel.app/" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Taqreeb — Quran Memorisation, Reimagined" />
+  <meta property="og:description" content="Smart murāja'ah scheduling for Huffaz. Join the waitlist." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://taqreeb.vercel.app/" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Taqreeb" />
+  <meta name="twitter:description" content="Smart murāja'ah scheduling for Huffaz. Join the waitlist." />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="taq-nav">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="/" class="taq-logo">Taqreeb<span class="taq-dot">.</span></a>
+      <span class="taq-nav-tag">Early Access</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="taq-hero">
+    <div class="taq-geo" aria-hidden="true">
+      <svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" fill="none">
+        <polygon points="300,40 560,180 560,420 300,560 40,420 40,180" stroke="#3DBA8A" stroke-width="1" stroke-opacity="0.18"/>
+        <polygon points="300,100 500,210 500,390 300,500 100,390 100,210" stroke="#3DBA8A" stroke-width="1" stroke-opacity="0.12"/>
+        <polygon points="300,160 440,240 440,360 300,440 160,360 160,240" stroke="#3DBA8A" stroke-width="1" stroke-opacity="0.09"/>
+        <line x1="300" y1="40" x2="300" y2="560" stroke="#3DBA8A" stroke-width="0.5" stroke-opacity="0.07"/>
+        <line x1="40" y1="180" x2="560" y2="420" stroke="#3DBA8A" stroke-width="0.5" stroke-opacity="0.07"/>
+        <line x1="560" y1="180" x2="40" y2="420" stroke="#3DBA8A" stroke-width="0.5" stroke-opacity="0.07"/>
+      </svg>
+    </div>
+
+    <div class="container position-relative">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-8 col-xl-7">
+          <div class="taq-eyebrow">Built for Huffaz &amp; Quran students</div>
+          <h1 class="taq-headline">
+            Stop forgetting what<br class="d-none d-md-block" />
+            you've memorised.
+          </h1>
+          <p class="taq-subhead">
+            Taqreeb brings you closer to your hifdh — with personalised murāja'ah schedules, daily revision planners, and intelligent weak-spot tracking. All in one place.
+          </p>
+
+          <!-- FORM -->
+          <div class="taq-form-wrap">
+            <% if (success) { %>
+              <div class="taq-alert taq-alert-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <%= success %>
+              </div>
+            <% } %>
+            <% if (error) { %>
+              <div class="taq-alert taq-alert-error">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <%= error %>
+              </div>
+            <% } %>
+            <% if (!success) { %>
+            <form action="/join" method="POST" class="taq-form" novalidate>
+              <div class="taq-input-row">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your first name"
+                  class="taq-input"
+                  autocomplete="given-name"
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your email address"
+                  class="taq-input"
+                  required
+                  autocomplete="email"
+                />
+                <button type="submit" class="taq-btn">
+                  Join waitlist
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+              </div>
+              <p class="taq-form-note">Free forever for early users. No spam, ever.</p>
+            </form>
+            <% } %>
+          </div>
+
+          <!-- SOCIAL PROOF -->
+          <div class="taq-proof">
+            <div class="taq-proof-avatars" aria-hidden="true">
+              <span class="taq-avatar" style="background:#1D9E75">A</span>
+              <span class="taq-avatar" style="background:#3B5BA5">M</span>
+              <span class="taq-avatar" style="background:#8B4A9E">F</span>
+              <span class="taq-avatar" style="background:#C05621">U</span>
+            </div>
+            <p class="taq-proof-text">24 memorisers from our survey are already waiting</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM SECTION -->
+  <section class="taq-problem">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-7 text-center">
+          <p class="taq-section-label">the problem</p>
+          <h2 class="taq-section-title">Consistency is the hardest part of hifdh.</h2>
+          <p class="taq-section-body">
+            You memorise a new page. A week passes. A month. Then the lines start blurring. Similar ayahs mix. Whole sections fade. Without structured revision, even years of hard work can slip away.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-3 g-md-4 mt-2 justify-content-center">
+        <div class="col-sm-6 col-lg-4">
+          <div class="taq-card">
+            <div class="taq-card-icon">↺</div>
+            <h3 class="taq-card-title">Personalised murāja'ah</h3>
+            <p class="taq-card-body">A revision schedule that adapts to what you know, what you're forgetting, and how much time you have each day.</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="taq-card">
+            <div class="taq-card-icon">◎</div>
+            <h3 class="taq-card-title">Daily hifdh planner</h3>
+            <p class="taq-card-body">Clear daily targets, no guesswork. Know exactly which juz to revise, when, and how much.</p>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="taq-card">
+            <div class="taq-card-icon">≈</div>
+            <h3 class="taq-card-title">Mutashabihat detection</h3>
+            <p class="taq-card-body">Intelligently flags similar ayahs that are easy to confuse, so you master the differences before they trip you up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="taq-footer">
+    <div class="container text-center">
+      <p class="taq-logo mb-1">Taqreeb<span class="taq-dot">.</span></p>
+      <p class="taq-footer-sub">Drawing you closer to the Quran. &copy; <%= new Date().getFullYear() %></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
