@@ -1,3 +1,5 @@
 node_modules/
 .env
 .DS_Store
+*.json
+taqreeb-waitlist-ddb94a1ead7d.json
