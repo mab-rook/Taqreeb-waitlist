@@ -2,10 +2,14 @@ console.log('KEY:', process.env.GOOGLE_PRIVATE_KEY);
 
 const express = require('express');
 const { google } = require('googleapis');
-const { Resend } = require('resend');
+// const { Resend } = require('resend');
 const router = express.Router();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
+const Brevo = require('@getbrevo/brevo');
+const brevoClient = Brevo.ApiClient.instance;
+brevoClient.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
+const transactionalEmailsApi = new Brevo.TransactionalEmailsApi();
 
 async function appendToSheet(name, email) {
   const auth = new google.auth.GoogleAuth({
@@ -54,11 +58,12 @@ async function getWaitlistCount() {
 async function sendConfirmationEmail(name, email) {
   const displayName = name || 'there';
 
-  await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL,
-    to: email,
-    subject: 'You\'re on the Taqreeb waitlist',
-    html: `
+  const sendSmtpEmail = new Brevo.SendSmtpEmail();
+
+  sendSmtpEmail.subject = "You're on the Taqreeb waitlist ";
+  sendSmtpEmail.sender = { name: 'Taqreeb', email: 'waitlist@taqreeb.com' };
+  sendSmtpEmail.to = [{ email, name: displayName }];
+  sendSmtpEmail.htmlContent = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +93,7 @@ async function sendConfirmationEmail(name, email) {
           <tr>
             <td style="padding:36px 40px;">
               <p style="margin:0 0 8px;font-size:22px;font-weight:700;color:#fff;">
-                Jazākumullāhu Khayran, ${displayName}!
+                Jazākumullāhu Khayran, ${displayName}! 
               </p>
               <p style="margin:0 0 24px;font-size:15px;line-height:1.7;color:#A8BDB6;">
                 Thank you for joining the Taqreeb waitlist. You're among the first to believe in what we're building — a tool that truly helps Huffaz stay consistent with their murāja'ah. We won't forget that.
@@ -135,8 +140,8 @@ async function sendConfirmationEmail(name, email) {
                 <tr>
                   <td style="padding:20px 24px;">
                     <p style="margin:0 0 6px;font-size:14px;font-weight:600;color:#3DBA8A;">Know someone memorising the Quran?</p>
-                    <p style="margin:0 0 14px;font-size:13px;color:#6B7B74;">Help them stay consistent. share Taqreeb with a friend or study partner.</p>
-                    <a href="https://taqreeb-waitlist.vercel.app/" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;">
+                    <p style="margin:0 0 14px;font-size:13px;color:#6B7B74;">Help them stay consistent — share Taqreeb with a friend or study partner.</p>
+                    <a href="https://taqreeb-waitlist.vercel.app" style="display:inline-block;background:#1D9E75;color:#fff;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;">
                       Share Taqreeb →
                     </a>
                   </td>
@@ -175,8 +180,9 @@ async function sendConfirmationEmail(name, email) {
   </table>
 </body>
 </html>
-    `
-  });
+  `;
+
+  await transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
 }
 
 router.get('/', async (req, res) => {
