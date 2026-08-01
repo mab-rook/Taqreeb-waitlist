@@ -127,7 +127,7 @@ async function sendConfirmationEmail(name, email) {
                   <td style="padding:20px 24px;">
                     <p style="margin:0 0 6px;font-size:14px;font-weight:600;color:#fff;">Have a suggestion?</p>
                     <p style="margin:0 0 14px;font-size:13px;color:#6B7B74;">We're building this for you — your ideas shape what we build next.</p>
-                    <a href="mailto:mubarakmahmunalaka@gmail.com?subject=Taqreeb Suggestion" style="display:inline-block;background:transparent;color:#3DBA8A;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;border:1px solid rgba(29,158,117,0.4);">
+                    <a href="mailto:taqreebapp01@gmail.com?subject=Taqreeb Suggestion" style="display:inline-block;background:transparent;color:#3DBA8A;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;border:1px solid rgba(29,158,117,0.4);">
                       Send a recommendation →
                     </a>
                   </td>
