@@ -1,25 +1,54 @@
 # Taqreeb — Waitlist Page
 
-Quran memorisation retention tool. Built with Node.js, Express, EJS, Bootstrap 5.
+Quran memorisation retention tool for Huffaz and students.
+Built with Node.js, Express, EJS, Bootstrap 5.
+
+**Live:** https://taqreeb-waitlist.vercel.app
+
+## Features
+- Waitlist signup form with name and email
+- Emails stored in Google Sheets in real time
+- Confirmation email sent via Resend with features preview
+- Fully responsive, SEO-optimised, Bootstrap 5
 
 ## Local setup
 
 ```bash
 npm install
 cp .env.example .env
-# Fill in your Mailchimp credentials in .env
+# Fill in your credentials in .env
 npm run dev
 ```
 
 Visit `http://localhost:3000`
 
-## Mailchimp setup
+## Environment variables
 
-1. Log in to [mailchimp.com](https://mailchimp.com)
-2. Go to **Audience → All contacts** — note your **Audience/List ID**
-3. Go to **Account → Extras → API keys** — create an API key
-4. Your **data center (DC)** is the prefix in your API key, e.g. `us21-xxxx...` → DC is `us21`
-5. Add these three values to your `.env` file
+Create a `.env` file with these values:
+
+```env
+PORT=3000
+GOOGLE_SHEET_ID=your_sheet_id_here
+GOOGLE_SERVICE_ACCOUNT_EMAIL=your-service-account@your-project.iam.gserviceaccount.com
+GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nYOUR_KEY_HERE\n-----END PRIVATE KEY-----\n"
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxx
+RESEND_FROM_EMAIL=onboarding@resend.dev
+```
+
+## Google Sheets setup
+
+1. Go to [console.cloud.google.com](https://console.cloud.google.com)
+2. Create a project and enable **Google Sheets API**
+3. Create a **Service Account** and download the JSON key
+4. Copy `client_email` and `private_key` into your `.env`
+5. Create a Google Sheet with headers: `Name | Email | Date`
+6. Share the sheet with your service account email (Editor access)
+
+## Resend setup
+
+1. Sign up at [resend.com](https://resend.com)
+2. Go to **API Keys** → create one → add to `.env`
+3. Use `onboarding@resend.dev` as sender until you have a custom domain
 
 ## Deploy to Vercel
 
@@ -28,29 +57,8 @@ npm install -g vercel
 vercel
 ```
 
-Add your env variables in the Vercel dashboard under **Settings → Environment Variables**.
+Add all environment variables in **Vercel → Settings → Environment Variables**.
 
-## Deploy to Render
-
-1. Push repo to GitHub
-2. Create a new **Web Service** on Render
-3. Set build command: `npm install`
-4. Set start command: `node server.js`
-5. Add env variables in Render dashboard
+Vercel auto-redeploys on every `git push origin master`.
 
 ## Project structure
-
-```
-taqreeb/
-├── server.js           # Express entry point
-├── routes/
-│   └── waitlist.js     # GET / and POST /join with Mailchimp
-├── views/
-│   └── index.ejs       # Waitlist page template
-├── public/
-│   └── css/
-│       └── style.css   # All custom styles
-├── .env.example
-├── vercel.json         # Vercel deploy config
-└── package.json
-```

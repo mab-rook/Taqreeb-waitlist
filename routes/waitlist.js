@@ -1,62 +1,4 @@
-// console.log('KEY:', process.env.GOOGLE_PRIVATE_KEY);
-
-// const express = require('express');
-// const { google } = require('googleapis');
-// const router = express.Router();
-
-// async function appendToSheet(name, email) {
-//   const auth = new google.auth.GoogleAuth({
-//     credentials: {
-//       client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-//       private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-//     },
-//     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-//   });
-
-//   const sheets = google.sheets({ version: 'v4', auth });
-//   const now = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Lagos' });
-
-//   await sheets.spreadsheets.values.append({
-//     spreadsheetId: process.env.GOOGLE_SHEET_ID,
-//     range: 'Sheet1!A:C',
-//     valueInputOption: 'USER_ENTERED',
-//     requestBody: {
-//       values: [[name || 'N/A', email, now]],
-//     },
-//   });
-// }
-
-// router.get('/', (req, res) => {
-//   res.render('index', { success: null, error: null });
-// });
-
-// router.post('/join', async (req, res) => {
-//   const { email, name } = req.body;
-
-//   if (!email || !email.includes('@')) {
-//     return res.render('index', {
-//       success: null,
-//       error: 'Please enter a valid email address.',
-//     });
-//   }
-
-//   try {
-//     await appendToSheet(name, email);
-//     return res.render('index', {
-//       success: "You're on the list! We'll reach out when Taqreeb is ready.",
-//       error: null,
-//     });
-//   } catch (err) {
-//     console.error('Google Sheets error:', err.message);
-//     return res.render('index', {
-//       success: null,
-//       error: 'Something went wrong. Please try again shortly.',
-//     });
-//   }
-// });
-
-// module.exports = router;
-
+console.log('KEY:', process.env.GOOGLE_PRIVATE_KEY);
 
 const express = require('express');
 const { google } = require('googleapis');
@@ -185,7 +127,7 @@ async function sendConfirmationEmail(name, email) {
                   <td style="padding:20px 24px;">
                     <p style="margin:0 0 6px;font-size:14px;font-weight:600;color:#fff;">Have a suggestion?</p>
                     <p style="margin:0 0 14px;font-size:13px;color:#6B7B74;">We're building this for you — your ideas shape what we build next.</p>
-                    <a href="mailto:taqreebapp01@gmail.com?subject=Taqreeb Suggestion" style="display:inline-block;background:transparent;color:#3DBA8A;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;border:1px solid rgba(29,158,117,0.4);">
+                    <a href="mailto:mubarakmahmunalaka@gmail.com?subject=Taqreeb Suggestion" style="display:inline-block;background:transparent;color:#3DBA8A;font-size:13px;font-weight:600;padding:10px 20px;border-radius:8px;text-decoration:none;border:1px solid rgba(29,158,117,0.4);">
                       Send a recommendation →
                     </a>
                   </td>
