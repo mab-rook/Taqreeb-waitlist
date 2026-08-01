@@ -29,6 +29,28 @@ async function appendToSheet(name, email) {
   });
 }
 
+
+async function getWaitlistCount() {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    },
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  const sheets = google.sheets({ version: 'v4', auth });
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: 'Sheet1!B:B',
+  });
+
+  const rows = response.data.values || [];
+  // Subtract 1 to exclude the header row
+  return Math.max(0, rows.length - 1);
+}
+
+
 async function sendConfirmationEmail(name, email) {
   const displayName = name || 'there';
 
@@ -157,33 +179,43 @@ async function sendConfirmationEmail(name, email) {
   });
 }
 
-router.get('/', (req, res) => {
-  res.render('index', { success: null, error: null });
+router.get('/', async (req, res) => {
+  try {
+    const count = await getWaitlistCount();
+    res.render('index', { success: null, error: null, count });
+  } catch (err) {
+    res.render('index', { success: null, error: null, count: 0 });
+  }
 });
 
 router.post('/join', async (req, res) => {
   const { email, name } = req.body;
 
   if (!email || !email.includes('@')) {
+    const count = await getWaitlistCount();
     return res.render('index', {
       success: null,
       error: 'Please enter a valid email address.',
+      count,
     });
   }
 
   try {
     await appendToSheet(name, email);
     await sendConfirmationEmail(name, email);
+    const count = await getWaitlistCount();
 
     return res.render('index', {
       success: "You're on the list! Check your email — we just sent you a confirmation.",
       error: null,
+      count,
     });
   } catch (err) {
     console.error('Error:', err.message);
     return res.render('index', {
       success: null,
       error: 'Something went wrong. Please try again shortly.',
+      count: 0,
     });
   }
 });
