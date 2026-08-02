@@ -1,70 +1,25 @@
-console.log('KEY:', process.env.GOOGLE_PRIVATE_KEY);
-
+// console.log('KEY:', process.env.GOOGLE_PRIVATE_KEY);
+// console.log('BREVO KEY:', process.env.BREVO_API_KEY);
 const express = require('express');
 const { google } = require('googleapis');
 // const { Resend } = require('resend');
 const router = express.Router();
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
-const Brevo = require('@getbrevo/brevo');
-const brevoClient = Brevo.ApiClient.instance;
-brevoClient.authentications['api-key'].apiKey = process.env.BREVO_API_KEY;
-const transactionalEmailsApi = new Brevo.TransactionalEmailsApi();
 
-async function appendToSheet(name, email) {
-  const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    },
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  });
-
-  const sheets = google.sheets({ version: 'v4', auth });
-  const now = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Lagos' });
-
-  await sheets.spreadsheets.values.append({
-    spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'Sheet1!A:C',
-    valueInputOption: 'USER_ENTERED',
-    requestBody: {
-      values: [[name || 'N/A', email, now]],
-    },
-  });
-}
-
-
-async function getWaitlistCount() {
-  const auth = new google.auth.GoogleAuth({
-    credentials: {
-      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
-    },
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-  });
-
-  const sheets = google.sheets({ version: 'v4', auth });
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: process.env.GOOGLE_SHEET_ID,
-    range: 'Sheet1!B:B',
-  });
-
-  const rows = response.data.values || [];
-  // Subtract 1 to exclude the header row
-  return Math.max(0, rows.length - 1);
-}
-
+const axios = require('axios');
 
 async function sendConfirmationEmail(name, email) {
   const displayName = name || 'there';
 
-  const sendSmtpEmail = new Brevo.SendSmtpEmail();
-
-  sendSmtpEmail.subject = "You're on the Taqreeb waitlist ";
-  sendSmtpEmail.sender = { name: 'Taqreeb', email: 'waitlist@taqreeb.com' };
-  sendSmtpEmail.to = [{ email, name: displayName }];
-  sendSmtpEmail.htmlContent = `
-<!DOCTYPE html>
+  await axios.post(
+    'https://api.brevo.com/v3/smtp/email',
+    {
+      sender: { name: 'Taqreeb', email: 'taqreebapp01@gmail.com' },
+      to: [{ email, name: displayName }],
+      subject: "You're on the Taqreeb waitlist",
+      htmlContent: `
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
@@ -180,10 +135,62 @@ async function sendConfirmationEmail(name, email) {
   </table>
 </body>
 </html>
-  `;
-
-  await transactionalEmailsApi.sendTransacEmail(sendSmtpEmail);
+      
+      `
+    },
+    {
+      headers: {
+        'api-key': process.env.BREVO_API_KEY,
+        'Content-Type': 'application/json',
+      },
+    }
+  );
 }
+
+
+async function appendToSheet(name, email) {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    },
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  const sheets = google.sheets({ version: 'v4', auth });
+  const now = new Date().toLocaleString('en-GB', { timeZone: 'Africa/Lagos' });
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: 'Sheet1!A:C',
+    valueInputOption: 'USER_ENTERED',
+    requestBody: {
+      values: [[name || 'N/A', email, now]],
+    },
+  });
+}
+
+
+async function getWaitlistCount() {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    },
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  const sheets = google.sheets({ version: 'v4', auth });
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: 'Sheet1!B:B',
+  });
+
+  const rows = response.data.values || [];
+  // Subtract 1 to exclude the header row
+  return Math.max(0, rows.length - 1);
+}
+
 
 router.get('/', async (req, res) => {
   try {
