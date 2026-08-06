@@ -2,10 +2,8 @@
 // console.log('BREVO KEY:', process.env.BREVO_API_KEY);
 const express = require('express');
 const { google } = require('googleapis');
-// const { Resend } = require('resend');
 const router = express.Router();
 
-// const resend = new Resend(process.env.RESEND_API_KEY);
 
 const axios = require('axios');
 
