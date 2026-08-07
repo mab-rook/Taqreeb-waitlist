@@ -199,6 +199,39 @@ router.get('/', async (req, res) => {
   }
 });
 
+// router.post('/join', async (req, res) => {
+//   const { email, name } = req.body;
+
+//   if (!email || !email.includes('@')) {
+//     const count = await getWaitlistCount();
+//     return res.render('index', {
+//       success: null,
+//       error: 'Please enter a valid email address.',
+//       count,
+//     });
+//   }
+
+//   try {
+//     await appendToSheet(name, email);
+//     await sendConfirmationEmail(name, email);
+//     const count = await getWaitlistCount();
+
+//     return res.render('index', {
+//       success: "You're on the list! Check your email — we just sent you a confirmation.",
+//       error: null,
+//       count,
+//     });
+//   } catch (err) {
+//     console.error('Error:', err.message);
+//     return res.render('index', {
+//       success: null,
+//       error: 'Something went wrong. Please try again shortly.',
+//       count: 0,
+//     });
+//   }
+// });
+
+
 router.post('/join', async (req, res) => {
   const { email, name } = req.body;
 
@@ -213,22 +246,29 @@ router.post('/join', async (req, res) => {
 
   try {
     await appendToSheet(name, email);
-    await sendConfirmationEmail(name, email);
-    const count = await getWaitlistCount();
 
+    // Email runs separately
+    sendConfirmationEmail(name, email).catch(err => {
+      console.error('Brevo error:', JSON.stringify(err.response?.data || err.message));
+    });
+
+    const count = await getWaitlistCount();
     return res.render('index', {
       success: "You're on the list! Check your email — we just sent you a confirmation.",
       error: null,
       count,
     });
   } catch (err) {
-    console.error('Error:', err.message);
+    console.error('Sheet error:', err.message);
+    const count = await getWaitlistCount();
     return res.render('index', {
       success: null,
       error: 'Something went wrong. Please try again shortly.',
-      count: 0,
+      count,
     });
   }
 });
+
+
 
 module.exports = router;
